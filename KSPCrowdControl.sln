@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSPCrowdControl", "KSPCrowdControl.csproj", "{229FD960-3B05-4B6C-AAA1-773B2A195798}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{229FD960-3B05-4B6C-AAA1-773B2A195798}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{229FD960-3B05-4B6C-AAA1-773B2A195798}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{229FD960-3B05-4B6C-AAA1-773B2A195798}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{229FD960-3B05-4B6C-AAA1-773B2A195798}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C4BEA77A-6413-47AA-803E-8AAC7D69914D}
+	EndGlobalSection
+EndGlobal
