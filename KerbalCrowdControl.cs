@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using KSPCrowdControl.Effects;
@@ -29,18 +30,14 @@ namespace KSPCrowdControl
 
         private string effectToRun = "";
 
-        private IEffectBase[] effects =
-        {
-            new ReverseGravityEffect(),
-            new FuckTheRocketEffect(),
-            new RandomExplosionEffect(),
-            new TriggerLastStageEffect()
-        };
+        private IEffectBase[] effects;
 
         public void Start()
         {
             Debug.Log("[KSP Crowd Control] Starting up!");
 
+            effects = Assembly.GetAssembly(typeof(IEffectBase)).GetTypes().Where(x => x.IsClass && x.IsSubclassOf(typeof(IEffectBase))).Select(Activator.CreateInstance) as IEffectBase[];
+            
 #if DEBUG
             var url = "ws://127.0.0.1:4327";
 #else
@@ -48,26 +45,25 @@ namespace KSPCrowdControl
 #endif
 
             ws = new WebSocket(url);
-
             ws.OnMessage += OnWebSocketMessage;
 
             ws.Connect();
             Debug.Log("[KSP Crowd Control] Connection to server established, sending payload.");
 
-            HelloMessage i = new HelloMessage
+            var i = new HelloMessage
             {
                 type = "hello"
             };
-            string hello = StringSerializationAPI.Serialize(i.GetType(), i);
+            var hello = StringSerializationAPI.Serialize(i.GetType(), i);
             Debug.Log("[KSP Crowd Control] " + hello);
             ws.SendAsync(hello, null);
 
-            PowerMessage p = new PowerMessage
+            var p = new PowerMessage
             {
                 type = "power",
                 power = 0
             };
-            string message = StringSerializationAPI.Serialize(p.GetType(), p);
+            var message = StringSerializationAPI.Serialize(p.GetType(), p);
             ws.SendAsync(message, null);
 
             InvokeRepeating("PowerTick", 0f, 0.2f);
@@ -82,12 +78,12 @@ namespace KSPCrowdControl
         {
             power += 15;
 
-            PowerMessage p = new PowerMessage
+            var p = new PowerMessage
             {
                 type = "power",
                 power = power
             };
-            string message = StringSerializationAPI.Serialize(p.GetType(), p);
+            var message = StringSerializationAPI.Serialize(p.GetType(), p);
             ws.SendAsync(message, null);
         }
 
@@ -120,20 +116,20 @@ namespace KSPCrowdControl
         {
             try
             {
-                foreach (IEffectBase fx in effects)
+                foreach (var fx in effects)
                 {
-                    if (fx.GetName() == effectToRun)
+                    if (fx.Name == effectToRun)
                     {
 #if !DEBUG
-                        if (fx.GetCost() > power)
+                        if (fx.Name > power)
                         {
-                            ScreenMessages.PostScreenMessage("Not enough power for effect " + fx.GetReadableName(), 3f);
+                            ScreenMessages.PostScreenMessage("Not enough power for effect " + fx.ReadableName, 3f);
                             break;
                         }
 #endif
 
                         fx.Execute();
-                        power -= fx.GetCost();
+                        power -= fx.Cost;
                         OnEffectActivate(fx);
                         break;
                     }
@@ -141,7 +137,7 @@ namespace KSPCrowdControl
             }
             catch (Exception err)
             {
-                Debug.Log("[KSP Crowd Control] oops: " + err);
+                Debug.Log($"[KSP Crowd Control] oops: {err}");
             }
         }
 
@@ -149,11 +145,11 @@ namespace KSPCrowdControl
         {
             try
             {
-                ScreenMessages.PostScreenMessage("Effect triggered: " + effect.GetReadableName(), 3f);
+                ScreenMessages.PostScreenMessage("Effect triggered: " + effect.ReadableName, 3f);
             }
             catch (Exception err)
             {
-                Debug.Log("shit: " + err);
+                Debug.Log($"[KSP Crowd Control] shit: {err}");
             }
         }
 

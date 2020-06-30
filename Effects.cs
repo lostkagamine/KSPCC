@@ -5,27 +5,17 @@ namespace KSPCrowdControl.Effects
 {
     public interface IEffectBase
     {
-        string GetName();
-        string GetReadableName();
-        int GetCost();
+        string Name { get; }
+        string ReadableName { get; }
+        int Cost { get; }
+        
         void Execute();
     }
 
     public class ReverseGravityEffect : IEffectBase {
-        public string GetName()
-        {
-            return "reverseGravity";
-        }
-
-        public string GetReadableName()
-        {
-            return "Reverse Gravity";
-        }
-
-        public int GetCost()
-        {
-            return 5000;
-        }
+        public string Name => "reverseGravity";
+        public string ReadableName => "Reverse Gravity";
+        public int Cost => 5000;
 
         public void Execute()
         {
@@ -36,21 +26,10 @@ namespace KSPCrowdControl.Effects
 
     public class FuckTheRocketEffect : IEffectBase
     {
-        public string GetName()
-        {
-            return "stage";
-        }
-
-        public string GetReadableName()
-        {
-            return "Stage";
-        }
-
-        public int GetCost()
-        {
-            return 3500;
-        }
-
+        public string Name => "stage";
+        public string ReadableName => "Stage";
+        public int Cost => 3500;
+        
         public void Execute()
         {
             StageManager.ActivateNextStage();
@@ -59,20 +38,9 @@ namespace KSPCrowdControl.Effects
 
     public class RandomExplosionEffect : IEffectBase
     {
-        public string GetName()
-        {
-            return "randomExplosion";
-        }
-
-        public string GetReadableName()
-        {
-            return "Random Part Explosion";
-        }
-
-        public int GetCost()
-        {
-            return 3000;
-        }
+        public string Name => "randomExplosion";
+        public string ReadableName => "Random Part Explosion";
+        public int Cost => 3000;
 
         public void Execute()
         {
@@ -82,22 +50,10 @@ namespace KSPCrowdControl.Effects
         }
     }
 
-    public class TriggerLastStageEffect : IEffectBase
-    {
-        public string GetName()
-        {
-            return "triggerLast";
-        }
-
-        public string GetReadableName()
-        {
-            return "Trigger Last Stage In Staging Sequence";
-        }
-
-        public int GetCost()
-        {
-            return 25000;
-        }
+    public class TriggerLastStageEffect : IEffectBase {
+        public string Name => "triggerLast";
+        public string ReadableName => "Trigger Last Stage In Staging Sequence";
+        public int Cost => 25000;
 
         public void Execute()
         {

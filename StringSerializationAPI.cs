@@ -10,8 +10,7 @@ namespace KSPCrowdControl
         public static string Serialize(Type type, object value)
         {
             // serialize the data
-            fsData data;
-            _serializer.TrySerialize(type, value, out data).AssertSuccessWithoutWarnings();
+            _serializer.TrySerialize(type, value, out var data).AssertSuccessWithoutWarnings();
 
             // emit the data via JSON
             return fsJsonPrinter.CompressedJson(data);
@@ -20,7 +19,7 @@ namespace KSPCrowdControl
         public static object Deserialize(Type type, string serializedState)
         {
             // step 1: parse the JSON data
-            fsData data = fsJsonParser.Parse(serializedState);
+            var data = fsJsonParser.Parse(serializedState);
 
             // step 2: deserialize the data
             object deserialized = null;
